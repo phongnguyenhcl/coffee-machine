@@ -44,7 +44,7 @@ public class CoffeeMachine {
 		this.money += subtractInventory(200, 100, 12) ? 6 : 0;
 	}
 	
-	private boolean subtractInventory(int water, int milk, int bean) {
+	private boolean checkInventory(int water, int milk, int bean) {
 		if (this.water - water < 0) {
 			System.out.println("Sorry, not enough water!");
 		} else if (this.milk - milk < 0) {
@@ -54,6 +54,14 @@ public class CoffeeMachine {
 		} else if (this.cup == 0) {
 			System.out.println("Sorry, not enough cups!");
 		} else {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean subtractInventory(int water, int milk, int bean) {
+		boolean enoughInventory = checkInventory(water, milk, bean);
+		if (enoughInventory) {
 			System.out.println("I have enough resources, making you a coffee!");
 			this.water -= water;
 			this.milk -= milk;
