@@ -1,6 +1,24 @@
 package machine;
 
 import java.util.Scanner;
+enum Coffee {
+	
+	Espresso(250, 0, 16, 4),
+	Latte(350, 75, 20, 7),
+	Cappuccino(200, 100, 12, 6);
+	
+	public final int water;
+	public final int milk;
+	public final int bean;
+	public final int price;
+
+    Coffee(int water, int milk, int bean, int price) {
+        this.water = water;
+        this.milk = milk;
+        this.bean = bean;
+        this.price = price;
+    }
+}
 
 public class CoffeeMachine {
 	
@@ -10,12 +28,20 @@ public class CoffeeMachine {
 	private int cup;
 	private int money;
 	
+	private Coffee espresso;
+	private Coffee latte;
+	private Coffee cappuccino;
+	
 	public CoffeeMachine() {
 		this.water = 400;
 		this.milk = 540;
 		this.bean = 120;
 		this.cup = 9;
 		this.money = 550;
+		
+		this.espresso = Coffee.Espresso;
+		this.latte = Coffee.Latte;
+		this.cappuccino = Coffee.Cappuccino;
 	}
 	
 	public void buy(int option) {
@@ -33,15 +59,28 @@ public class CoffeeMachine {
 	}
 	
 	private void buyOneEspresso() {
-		this.money += subtractInventory(250, 0, 16) ? 4 : 0;
+		this.money += subtractInventory(this.espresso) ? this.espresso.price : 0;
 	}
 	
 	private void buyOneLatte() {
-		this.money += subtractInventory(350, 75, 20) ? 7: 0;
+		this.money += subtractInventory(this.latte) ? this.latte.price : 0;
 	}
 	
 	private void BuyOneCappuccino() {
-		this.money += subtractInventory(200, 100, 12) ? 6 : 0;
+		this.money += subtractInventory(this.cappuccino) ? this.cappuccino.price : 0;
+	}
+	
+	private boolean subtractInventory(Coffee coffee) {
+		boolean enoughInventory = checkInventory(coffee.water, coffee.milk, coffee.bean);
+		if (enoughInventory) {
+			System.out.println("I have enough resources, making you a coffee!");
+			this.water -= coffee.water;
+			this.milk -= coffee.milk;
+			this.bean -= coffee.bean;
+			this.cup -= 1;
+			return true;
+		}
+		return false;
 	}
 	
 	private boolean checkInventory(int water, int milk, int bean) {
@@ -59,27 +98,14 @@ public class CoffeeMachine {
 		return false;
 	}
 	
-	private boolean subtractInventory(int water, int milk, int bean) {
-		boolean enoughInventory = checkInventory(water, milk, bean);
-		if (enoughInventory) {
-			System.out.println("I have enough resources, making you a coffee!");
-			this.water -= water;
-			this.milk -= milk;
-			this.bean -= bean;
-			this.cup -= 1;
-			return true;
-		}
-		return false;
-	}
-	
-	public void fill (int water, int milk, int bean, int cup) {
+	public void fill(int water, int milk, int bean, int cup) {
 		this.water += water;
 		this.milk += milk;
 		this.bean += bean;
 		this.cup += cup;
 	}
 	
-	public void take () {
+	public void take() {
 		System.out.printf("I gave you $%d\n", this.money);
 		this.money = 0;
 	}
