@@ -32,12 +32,12 @@ public class CoffeeMachine {
 	private Coffee latte;
 	private Coffee cappuccino;
 	
-	public CoffeeMachine() {
-		this.water = 400;
-		this.milk = 540;
-		this.bean = 120;
-		this.cup = 9;
-		this.money = 550;
+	public CoffeeMachine(int water, int milk, int bean, int cup, int money) {
+		this.water = water;
+		this.milk = milk;
+		this.bean = bean;
+		this.cup = cup;
+		this.money = money;
 		
 		this.espresso = Coffee.Espresso;
 		this.latte = Coffee.Latte;
@@ -120,7 +120,7 @@ public class CoffeeMachine {
 	}
 	
     public static void main(String[] args) {
-        CoffeeMachine cfm = new CoffeeMachine();
+        CoffeeMachine cfm = new CoffeeMachine(400, 540, 120, 9, 550);
         
         @SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
